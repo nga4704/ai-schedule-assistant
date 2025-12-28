@@ -1,98 +1,171 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+// app/index.tsx
+import { router } from "expo-router";
+import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Colors } from "../../constants/colors";
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>Today’s schedule</Text>
+          <Text style={styles.subtitle}>Thursday</Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => router.push("/profile")}
+        >
+        <View style={styles.avatar} />
+        </TouchableOpacity>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      {/* Today tasks */}
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Today</Text>
+
+        <View style={styles.taskItem}>
+          <View style={styles.taskIcon} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.taskTitle}>Wake up early</Text>
+            <Text style={styles.taskTime}>7:00 AM</Text>
+          </View>
+        </View>
+
+        <View style={[styles.taskItem, styles.taskHighlight]}>
+          <View style={styles.taskIcon} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.taskTitle}>Morning yoga</Text>
+            <Text style={styles.taskTime}>8:00 AM</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* AI suggestion */}
+      <View style={[styles.card, styles.aiCard]}>
+        <Text style={styles.cardTitle}>AI assistant</Text>
+        <Text style={styles.aiText}>
+          I can optimize your schedule for better focus today.
+        </Text>
+
+        <TouchableOpacity
+          style={styles.aiButton}
+          onPress={() => router.push("/schedule")}
+        >
+          <Text style={styles.aiButtonText}>Auto schedule</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+    padding: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+
+  title: {
+    fontSize: 22,
+    fontWeight: "800",
+    color: Colors.textPrimary,
+  },
+
+  subtitle: {
+    marginTop: 4,
+    fontSize: 16,
+    color: Colors.textPrimary,
+    fontWeight: "600",
+  },
+
+  avatar: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: Colors.gray200,
+  },
+
+  card: {
+    backgroundColor: Colors.card,
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 20,
+  },
+
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 16,
+    color: Colors.textPrimary,
+  },
+
+  taskItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 14,
+    borderRadius: 14,
+    backgroundColor: Colors.gray200,
+    marginBottom: 12,
+  },
+
+  taskHighlight: {
+    backgroundColor: Colors.primary,
+  },
+
+  taskIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: Colors.card,
+    marginRight: 14,
+  },
+
+  taskTitle: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: Colors.textPrimary,
+  },
+
+  taskTime: {
+    marginTop: 2,
+    fontSize: 13,
+    color: Colors.textSecondary,
+  },
+
+  aiCard: {
+    backgroundColor: Colors.card,
+  },
+
+  aiText: {
+    fontSize: 14,
+    color: Colors.textPrimary,
+    marginBottom: 16,
+  },
+
+  aiButton: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 14,
+    borderRadius: 14,
+    alignItems: "center",
+  },
+
+  aiButtonText: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#000",
   },
 });
