@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { Colors } from "../constants/colors";
 import { auth } from "../firebase/firebaseConfig";
 import { AuthProvider } from "../hooks/useAuth";
 
@@ -58,11 +59,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: Colors.primary,
   },
   logo: {
     width: 140,
     height: 140,
     marginBottom: 20,
+    borderRadius: 999,
+    backgroundColor: Colors.background,
   },
   text: {
     marginTop: 12,

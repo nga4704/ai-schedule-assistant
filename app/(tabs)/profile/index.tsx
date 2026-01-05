@@ -27,79 +27,84 @@ export default function ProfileScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header */}
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.avatarLarge} />
         <Text style={styles.name}>
-          {user?.email?.split("@")[0] ?? "User"}
+          {user?.email?.split("@")[0] ??
+            "Người dùng"}
         </Text>
-        <Text style={styles.email}>{user?.email}</Text>
+        <Text style={styles.email}>
+          {user?.email}
+        </Text>
       </View>
 
-      {/* Stats (mock – sau này thay bằng real data) */}
       <View style={styles.statsRow}>
-        <View style={styles.statBox}>
-          <Text style={styles.statNumber}>24</Text>
-          <Text style={styles.statLabel}>Tasks</Text>
-        </View>
-        <View style={styles.statBox}>
-          <Text style={styles.statNumber}>12</Text>
-          <Text style={styles.statLabel}>Days</Text>
-        </View>
-        <View style={styles.statBox}>
-          <Text style={styles.statNumber}>5</Text>
-          <Text style={styles.statLabel}>Streak</Text>
-        </View>
+        <StatBox number="24" label="Công việc" />
+        <StatBox number="12" label="Ngày" />
+        <StatBox number="5" label="Chuỗi" />
       </View>
 
-      {/* Account */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Account</Text>
-
-        <ProfileItem icon="user" label="Edit profile" />
-        <ProfileItem icon="bell" label="Notifications" />
-        <ProfileItem icon="lock" label="Privacy & Security" />
+        <Text style={styles.cardTitle}>
+          Tài khoản
+        </Text>
+        <ProfileItem
+          icon="user"
+          label="Chỉnh sửa hồ sơ"
+        />
+        <ProfileItem
+          icon="bell"
+          label="Thông báo"
+        />
+        <ProfileItem
+          icon="lock"
+          label="Quyền riêng tư & bảo mật"
+        />
       </View>
 
-      {/* AI config preview */}
       {profile?.aiConfig && (
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>AI Assistant</Text>
-          <Text style={styles.aiText}>
-            Strategy: {profile.aiConfig.schedulingStrategy}
+          <Text style={styles.cardTitle}>
+            Trợ lý AI
           </Text>
           <Text style={styles.aiText}>
-            Auto reschedule:{" "}
-            {profile.aiConfig.autoReschedule ? "On" : "Off"}
+            Chiến lược:{" "}
+            {profile.aiConfig.schedulingStrategy}
+          </Text>
+          <Text style={styles.aiText}>
+            Tự động sắp xếp lại:{" "}
+            {profile.aiConfig.autoReschedule
+              ? "Bật"
+              : "Tắt"}
           </Text>
         </View>
       )}
 
-      {/* Logout */}
       <TouchableOpacity
         style={styles.logoutButton}
         onPress={logoutUser}
       >
-        <Text style={styles.logoutText}>Log out</Text>
+        <Text style={styles.logoutText}>
+          Đăng xuất
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
-/* ---------- Reusable item ---------- */
-function ProfileItem({
-  icon,
-  label,
-}: {
-  icon: any;
-  label: string;
-}) {
+function ProfileItem({ icon, label }: any) {
   return (
     <TouchableOpacity style={styles.item}>
       <View style={styles.itemLeft}>
-        <Feather name={icon} size={18} color={Colors.textPrimary} />
-        <Text style={styles.itemText}>{label}</Text>
+        <Feather
+          name={icon}
+          size={18}
+          color={Colors.textPrimary}
+        />
+        <Text style={styles.itemText}>
+          {label}
+        </Text>
       </View>
       <Feather
         name="chevron-right"
@@ -107,6 +112,19 @@ function ProfileItem({
         color={Colors.textSecondary}
       />
     </TouchableOpacity>
+  );
+}
+
+function StatBox({ number, label }: any) {
+  return (
+    <View style={styles.statBox}>
+      <Text style={styles.statNumber}>
+        {number}
+      </Text>
+      <Text style={styles.statLabel}>
+        {label}
+      </Text>
+    </View>
   );
 }
 

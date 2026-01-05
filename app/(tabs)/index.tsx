@@ -16,49 +16,50 @@ export default function HomeScreen() {
       {/* Header */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.title}>Today’s schedule</Text>
-          <Text style={styles.subtitle}>Thursday</Text>
+          <Text style={styles.title}>Lịch hôm nay</Text>
+          <Text style={styles.subtitle}>Thứ Năm</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => router.push("/profile")}
-        >
-        <View style={styles.avatar} />
+
+        <TouchableOpacity onPress={() => router.push("/profile")}>
+          <View style={styles.avatar} />
         </TouchableOpacity>
       </View>
 
       {/* Today tasks */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Today</Text>
+        <Text style={styles.cardTitle}>Hôm nay</Text>
 
         <View style={styles.taskItem}>
           <View style={styles.taskIcon} />
           <View style={{ flex: 1 }}>
-            <Text style={styles.taskTitle}>Wake up early</Text>
-            <Text style={styles.taskTime}>7:00 AM</Text>
+            <Text style={styles.taskTitle}>Thức dậy sớm</Text>
+            <Text style={styles.taskTime}>7:00 sáng</Text>
           </View>
         </View>
 
         <View style={[styles.taskItem, styles.taskHighlight]}>
           <View style={styles.taskIcon} />
           <View style={{ flex: 1 }}>
-            <Text style={styles.taskTitle}>Morning yoga</Text>
-            <Text style={styles.taskTime}>8:00 AM</Text>
+            <Text style={styles.taskTitle}>Yoga buổi sáng</Text>
+            <Text style={styles.taskTime}>8:00 sáng</Text>
           </View>
         </View>
       </View>
 
       {/* AI suggestion */}
       <View style={[styles.card, styles.aiCard]}>
-        <Text style={styles.cardTitle}>AI assistant</Text>
+        <Text style={styles.cardTitle}>Trợ lý AI</Text>
         <Text style={styles.aiText}>
-          I can optimize your schedule for better focus today.
+          AI có thể tối ưu lịch trình của bạn để tập trung hiệu quả hơn hôm nay.
         </Text>
 
         <TouchableOpacity
           style={styles.aiButton}
           onPress={() => router.push("/schedule")}
         >
-          <Text style={styles.aiButtonText}>Auto schedule</Text>
+          <Text style={styles.aiButtonText}>
+            Tự động sắp xếp lịch
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

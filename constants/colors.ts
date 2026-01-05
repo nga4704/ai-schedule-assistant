@@ -33,4 +33,14 @@ export const Colors = {
   gray200: "#E5E7EB",
   gray300: "#CBD5E1",
   gray400: "#94A3B8",
+
+   /* ===== Task pastel colors ===== */
+  taskPastel: [
+    "#aeacf7ff", // pastel indigo
+    "#abf6cdff", // pastel green
+    "#ffddaeff", // pastel orange
+    "#fec1c1ff", // pastel red
+    "#bef3f9ff", // pastel cyan
+    "#dcc3fbff", // pastel purple
+  ],
 };
