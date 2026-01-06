@@ -1,7 +1,5 @@
-// services/taskQueryService.ts
 import { getAuth } from "firebase/auth";
 import { collection, getDocs, query, Timestamp, where } from "firebase/firestore";
-// import { TaskColorKey } from "../constants/colors";
 import { db } from "../firebase/firebaseConfig";
 
 export interface FirestoreTask {
@@ -9,7 +7,8 @@ export interface FirestoreTask {
   title: string;
   startDate: Timestamp;
   startTime: Timestamp;
-  // taskColor?: TaskColorKey | null;
+  endTime?: Timestamp;
+  // taskColor?: string;
 }
 
 export async function getTasksOfUser(): Promise<FirestoreTask[]> {
@@ -23,12 +22,12 @@ export async function getTasksOfUser(): Promise<FirestoreTask[]> {
 
   const snapshot = await getDocs(q);
 
-  const tasks = snapshot.docs.map((doc) => ({
+  const tasks = snapshot.docs.map(doc => ({
     id: doc.id,
     ...(doc.data() as any),
   }));
 
-  // sort bằng JS (an toàn, không cần index)
+  // sort theo startTime
   tasks.sort((a, b) => {
     const aTime = a.startTime?.toDate?.()?.getTime() ?? 0;
     const bTime = b.startTime?.toDate?.()?.getTime() ?? 0;
