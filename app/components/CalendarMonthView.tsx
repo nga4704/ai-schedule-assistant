@@ -11,20 +11,31 @@ interface Props {
 export default function CalendarMonthView({ tasks, monthDays }: Props) {
   const weekdays = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
 
-  // --- TẠO LƯỚI NGÀY ĐÚNG VỚI THỨ ---
   const firstDay = monthDays[0];
-  const startWeekday = firstDay.getDay(); // 0=CN ... 6=T7
+  const startWeekday = firstDay.getDay();
 
-  // chèn ô trống trước ngày 1
   const grid: (Date | null)[] = [
     ...Array(startWeekday).fill(null),
     ...monthDays,
   ];
 
+  const tail = (7 - (grid.length % 7)) % 7;
+  if (tail > 0) grid.push(...Array(tail).fill(null));
+
+  function toLocalDateString(date: Date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${d}-${m}-${y}`;
+  }
+
+  const today = new Date();
+  const todayKey = toLocalDateString(today);
+
   return (
     <View>
-      {/* HEADER: THỨ */}
-      <View className="weekHeader" style={styles.weekHeader}>
+      {/* HEADER */}
+      <View style={styles.weekHeader}>
         {weekdays.map((d) => (
           <View key={d} style={styles.headerCell}>
             <Text style={styles.headerText}>{d}</Text>
@@ -32,26 +43,35 @@ export default function CalendarMonthView({ tasks, monthDays }: Props) {
         ))}
       </View>
 
-      {/* GRID NGÀY */}
+      {/* GRID */}
       <View style={styles.monthGrid}>
         {grid.map((date, idx) => {
-          if (!date) {
-            // Ô trống
-            return <View key={idx} style={styles.monthDay} />;
-          }
+          if (!date) return <View key={idx} style={styles.monthDay} />;
 
-          const dayTasks = tasks.filter(
-            (t) => t.date === date.toISOString().split("T")[0]
-          );
+          const dateKey = toLocalDateString(date);
+          const isToday = dateKey === todayKey;
+          const dayTasks = tasks.filter((t) => t.date === dateKey);
 
           return (
             <View key={idx} style={styles.monthDay}>
-              <Text style={styles.monthDayLabel}>{date.getDate()}</Text>
+              <View style={[styles.dayCircle, isToday && styles.todayCircle]}>
+                <Text
+                  style={[
+                    styles.monthDayLabel,
+                    isToday && styles.todayText,
+                  ]}
+                >
+                  {date.getDate()}
+                </Text>
+              </View>
 
               {dayTasks.map((t) => (
                 <View
                   key={t.id}
-                  style={[styles.event, { backgroundColor: t.color, marginVertical: 2 }]}
+                  style={[
+                    styles.event,
+                    { backgroundColor: t.color, marginVertical: 2 },
+                  ]}
                 >
                   <Text style={styles.eventText}>{t.title}</Text>
                 </View>
@@ -71,28 +91,36 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   headerCell: {
-    width: `${100 / 7}%`,
+    flex: 1,
     paddingVertical: 6,
+    alignItems: "center",
   },
   headerText: {
     textAlign: "center",
     fontWeight: "700",
     color: Colors.textSecondary ?? "#555",
   },
-
   monthGrid: { flexDirection: "row", flexWrap: "wrap" },
-
   monthDay: {
-    width: `${100 / 7}%`,
+    flexBasis: "14.2857%",
+    maxWidth: "14.2857%",
     padding: 6,
     borderWidth: 1,
     borderColor: Colors.border,
-    minHeight: 60,
+    minHeight: 68,
+    alignItems: "center",
   },
-
-  monthDayLabel: { fontWeight: "700", textAlign: "center", marginBottom: 2 },
-
+  dayCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 2,
+  },
+  todayCircle: { backgroundColor: Colors.primary },
+  monthDayLabel: { fontWeight: "700", textAlign: "center" },
+  todayText: { color: "#000" },
   event: { padding: 6, borderRadius: 8 },
-
   eventText: { fontSize: 12, fontWeight: "700", color: "#000" },
 });

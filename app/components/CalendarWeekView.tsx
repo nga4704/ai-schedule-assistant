@@ -11,38 +11,36 @@ interface Props {
 const weekDays = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
 const hours = Array.from({ length: 24 }, (_, i) => i);
 
-const TIME_COL_WIDTH = 50;
 const ROW_HEIGHT = 64;
+
+function formatDateLocal(date: Date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${d}-${m}-${y}`;
+}
 
 export default function CalendarWeekView({ tasks, weekDates }: Props) {
   const today = new Date().toDateString();
 
   return (
     <View style={{ flex: 1 }}>
-      {/* ================= HEADER ================= */}
+      {/* HEADER */}
       <View style={styles.headerRow}>
-        <View style={{ width: TIME_COL_WIDTH }} />
+        <View style={{ width: 50 }} />
 
         {weekDates.map((date, idx) => {
           const isToday = date.toDateString() === today;
 
           return (
             <View key={idx} style={styles.headerDay}>
-              <Text style={styles.headerLabel}>
-                {weekDays[date.getDay()]}
-              </Text>
+              <Text style={styles.headerLabel}>{weekDays[date.getDay()]}</Text>
 
               <View
-                style={[
-                  styles.dayCircle,
-                  isToday && styles.dayCircleActive,
-                ]}
+                style={[styles.dayCircle, isToday && styles.dayCircleActive]}
               >
                 <Text
-                  style={[
-                    styles.dayText,
-                    isToday && styles.dayTextActive,
-                  ]}
+                  style={[styles.dayText, isToday && styles.dayTextActive]}
                 >
                   {date.getDate()}
                 </Text>
@@ -52,7 +50,7 @@ export default function CalendarWeekView({ tasks, weekDates }: Props) {
         })}
       </View>
 
-      {/* ================= BODY ================= */}
+      {/* BODY */}
       <ScrollView>
         <View style={styles.body}>
           {/* TIME COLUMN */}
@@ -66,9 +64,9 @@ export default function CalendarWeekView({ tasks, weekDates }: Props) {
             ))}
           </View>
 
-          {/* DAY COLUMNS */}
+          {/* DAYS */}
           {weekDates.map((date, dIdx) => {
-            const dateKey = date.toISOString().split("T")[0];
+            const dateKey = formatDateLocal(date);
 
             return (
               <View key={dIdx} style={styles.dayColumn}>
@@ -80,10 +78,7 @@ export default function CalendarWeekView({ tasks, weekDates }: Props) {
                   return (
                     <View
                       key={hour}
-                      style={[
-                        styles.hourCell,
-                        { height: ROW_HEIGHT },
-                      ]}
+                      style={[styles.hourCell, { height: ROW_HEIGHT }]}
                     >
                       {hourTasks.map((t) => (
                         <View
@@ -93,10 +88,7 @@ export default function CalendarWeekView({ tasks, weekDates }: Props) {
                             { backgroundColor: t.color },
                           ]}
                         >
-                          <Text
-                            style={styles.eventText}
-                            numberOfLines={1}
-                          >
+                          <Text numberOfLines={1} style={styles.eventText}>
                             {t.title}
                           </Text>
                         </View>
@@ -112,23 +104,16 @@ export default function CalendarWeekView({ tasks, weekDates }: Props) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
-  /* ===== HEADER ===== */
   headerRow: {
     flexDirection: "row",
     paddingBottom: 8,
     borderBottomWidth: 1,
     borderColor: Colors.border,
   },
-  headerDay: {
-    flex: 1,
-    alignItems: "center",
-  },
-  headerLabel: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: Colors.textSecondary,
-  },
+  headerDay: { flex: 1, alignItems: "center" },
+  headerLabel: { fontSize: 12, fontWeight: "600", color: Colors.textSecondary },
   dayCircle: {
     width: 28,
     height: 28,
@@ -137,58 +122,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 4,
   },
-  dayCircleActive: {
-    backgroundColor: Colors.primary,
-  },
-  dayText: {
-    fontWeight: "700",
-  },
-  dayTextActive: {
-    color: Colors.textPrimary,
-  },
+  dayCircleActive: { backgroundColor: Colors.primary },
+  dayText: { fontWeight: "700" },
+  dayTextActive: { color: Colors.textPrimary },
 
-  /* ===== BODY ===== */
-  body: {
-    flexDirection: "row",
-  },
+  body: { flexDirection: "row" },
 
-  /* TIME */
-  timeColumn: {
-    width:40
-  },
+  timeColumn: { width: 50 },
   timeCell: {
     justifyContent: "flex-start",
     alignItems: "flex-end",
     paddingRight: 6,
   },
-  timeText: {
-    fontSize: 11,
-    color: Colors.textSecondary,
-  },
+  timeText: { fontSize: 11, color: Colors.textSecondary },
 
-  /* DAY COLUMN */
-  dayColumn: {
-    flex: 1,
-    borderLeftWidth: 1,
-    borderColor: Colors.border,
-  },
+  dayColumn: { flex: 1, borderLeftWidth: 1, borderColor: Colors.border },
+  hourCell: { borderTopWidth: 1, borderColor: Colors.border, padding: 4 },
 
-  hourCell: {
-    borderTopWidth: 1,
-    borderColor: Colors.border,
-    padding: 4,
-  },
-
-  /* EVENT */
   event: {
     borderRadius: 8,
     paddingHorizontal: 6,
     paddingVertical: 4,
     marginBottom: 4,
   },
-  eventText: {
-    fontSize: 11,
-    fontWeight: "700",
-    color: "#000",
-  },
+  eventText: { fontSize: 11, fontWeight: "700", color: "#000" },
 });

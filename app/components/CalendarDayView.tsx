@@ -25,6 +25,7 @@ export default function CalendarDayView({ tasks }: Props) {
         return (
           <View key={hour} style={styles.timeRow}>
             <Text style={styles.hourText}>{hour}:00</Text>
+
             <View style={styles.slot}>
               {tasksAtHour.map((task) => (
                 <View
@@ -52,6 +53,10 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.border,
     paddingLeft: 12,
   },
-  event: { padding: 6, borderRadius: 8, marginBottom: 6 },
+  event: {
+    padding: 6,
+    borderRadius: 8,
+    marginBottom: 6,
+  },
   eventText: { fontWeight: "700" },
 });
