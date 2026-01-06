@@ -1,14 +1,15 @@
+// services/taskQueryService.ts
 import { getAuth } from "firebase/auth";
 import { collection, getDocs, query, Timestamp, where } from "firebase/firestore";
-import { TaskColorKey } from "../../constants/colors";
-import { db } from "../../firebase/firebaseConfig";
+// import { TaskColorKey } from "../constants/colors";
+import { db } from "../firebase/firebaseConfig";
 
 export interface FirestoreTask {
   id: string;
   title: string;
   startDate: Timestamp;
   startTime: Timestamp;
-  taskColor?: TaskColorKey | null;
+  // taskColor?: TaskColorKey | null;
 }
 
 export async function getTasksOfUser(): Promise<FirestoreTask[]> {

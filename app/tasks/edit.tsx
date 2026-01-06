@@ -3,23 +3,23 @@ import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/dat
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-    Alert,
-    KeyboardAvoidingView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../constants/colors";
 
 import { Timestamp } from "firebase/firestore";
 
 import {
-    deleteTask,
-    getTaskById,
-    updateTask,
+  deleteTask,
+  getTaskById,
+  updateTask,
 } from "../services/taskService";
 
 import ColorPicker from "./components/ColorPicker";
@@ -27,7 +27,7 @@ import ReminderPicker from "./components/ReminderPicker";
 import RepeatPicker, { RepeatPreset, WeekDay } from "./components/RepeatPicker";
 import TimePickerSection from "./components/TimePickerSection";
 
-import { toDateSafe } from "../helpers/date";
+import { toDateSafe } from "../utils/date";
 
 type PickerMode = "startDate" | "startTime" | "endTime" | "repeatEnd" | null;
 

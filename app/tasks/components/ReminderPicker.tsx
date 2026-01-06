@@ -2,13 +2,13 @@
 import { Feather } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
-import { Colors } from "../../../constants/colors";
+import { Colors } from "../../constants/colors";
 
 interface Props {
   value: number; // minutes

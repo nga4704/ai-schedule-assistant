@@ -1,4 +1,4 @@
-// app/(tabs)/profile.tsx
+// app/(tabs)/profile/index.tsx
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors } from "../../../constants/colors";
-import { logoutUser } from "../../../firebase/auth";
-import { useAuth } from "../../../hooks/useAuth";
-import { useUserProfile } from "../../../hooks/useUserProfile";
+import { Colors } from "../../constants/colors";
+import { logoutUser } from "../../firebase/auth";
+import { useAuth } from "../../hooks/useAuth";
+import { useUserProfile } from "../../hooks/useUserProfile";
 
 export default function ProfileScreen() {
   const { user } = useAuth();

@@ -2,15 +2,15 @@ import { router } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  Text,
-  View,
+    ActivityIndicator,
+    Image,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
-import { Colors } from "../constants/colors";
-import { auth } from "../firebase/firebaseConfig";
-import { AuthProvider } from "../hooks/useAuth";
+import { Colors } from "./constants/colors";
+import { auth } from "./firebase/firebaseConfig";
+import { AuthProvider } from "./hooks/useAuth";
 
 export default function SplashScreen() {
   useEffect(() => {

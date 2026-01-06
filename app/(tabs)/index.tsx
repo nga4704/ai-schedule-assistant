@@ -1,6 +1,7 @@
-// app/index.tsx
-import { router } from "expo-router";
-import React from "react";
+// (tabs)/index.tsx
+import { router, useFocusEffect } from "expo-router";
+import { getAuth } from "firebase/auth";
+import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -8,16 +9,45 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../constants/colors";
+import { getTodayTasks, updateTaskCompleted } from "../services/taskService";
+import { Task } from "../types/task";
+import { formatFullDateVN } from "../utils/date";
 
 export default function HomeScreen() {
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        setTasks([]);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      getTodayTasks(user.uid)
+        .then(setTasks)
+        .finally(() => setLoading(false));
+    }, [])
+  );
+
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>Lịch hôm nay</Text>
-          <Text style={styles.subtitle}>Thứ Năm</Text>
+          <Text style={styles.subtitle}>
+            {formatFullDateVN(new Date())}
+          </Text>
+
         </View>
 
         <TouchableOpacity onPress={() => router.push("/profile")}>
@@ -29,22 +59,67 @@ export default function HomeScreen() {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Hôm nay</Text>
 
-        <View style={styles.taskItem}>
-          <View style={styles.taskIcon} />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.taskTitle}>Thức dậy sớm</Text>
-            <Text style={styles.taskTime}>7:00 sáng</Text>
-          </View>
-        </View>
+        {loading && <Text>Đang tải...</Text>}
 
-        <View style={[styles.taskItem, styles.taskHighlight]}>
-          <View style={styles.taskIcon} />
-          <View style={{ flex: 1 }}>
-            <Text style={styles.taskTitle}>Yoga buổi sáng</Text>
-            <Text style={styles.taskTime}>8:00 sáng</Text>
+        {!loading && tasks.length === 0 && (
+          <Text style={{ color: Colors.textSecondary }}>
+            Hôm nay chưa có công việc
+          </Text>
+        )}
+
+        {tasks.map((task, index) => (
+          <View
+            key={task.id}
+            style={[
+              styles.taskItem,
+              index === 0 && styles.taskHighlight,
+              task.completed && { opacity: 0.5 },
+            ]}
+          >
+            {/* CHECKBOX */}
+            <TouchableOpacity
+              onPress={async () => {
+                const newValue = !task.completed;
+
+                // cập nhật firestore
+                await updateTaskCompleted(task.id, newValue);
+
+                // cập nhật lại state local
+                setTasks(prev =>
+                  prev.map(t =>
+                    t.id === task.id ? { ...t, completed: newValue } : t
+                  )
+                );
+              }}
+              style={[
+                styles.checkbox,
+                task.completed && styles.checkboxChecked,
+              ]}
+            >
+              {task.completed && <Text style={styles.checkIcon}>✓</Text>}
+            </TouchableOpacity>
+
+            {/* CONTENT */}
+            <TouchableOpacity
+              style={{ flex: 1 }}
+              onPress={() =>
+                router.push({
+                  pathname: "/tasks/[id]",
+                  params: { id: task.id },
+                })
+              }
+
+            >
+              <Text style={styles.taskTitle}>{task.title}</Text>
+              <Text style={styles.taskTime}>{task.hour}:00</Text>
+            </TouchableOpacity>
+
           </View>
-        </View>
+        ))}
+
       </View>
+
+
 
       {/* AI suggestion */}
       <View style={[styles.card, styles.aiCard]}>
@@ -55,7 +130,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={styles.aiButton}
-          onPress={() => router.push("/schedule")}
+          onPress={() => router.push("/ai")}
         >
           <Text style={styles.aiButtonText}>
             Tự động sắp xếp lịch
@@ -90,7 +165,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 16,
     color: Colors.textPrimary,
-    fontWeight: "600",
+    fontWeight: "500",
   },
 
   avatar: {
@@ -112,6 +187,27 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginBottom: 16,
     color: Colors.textPrimary,
+  },
+  checkbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 0.5,
+    borderColor: Colors.textPrimary,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 14,
+    backgroundColor: Colors.card,
+  },
+
+  checkboxChecked: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+
+  checkIcon: {
+    color: "#000",
+    fontWeight: "900",
   },
 
   taskItem: {

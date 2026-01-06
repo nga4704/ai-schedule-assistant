@@ -1,3 +1,4 @@
+//(tabs)/calendar/index.tsx
 import { Feather } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { router, useFocusEffect } from "expo-router";
@@ -9,12 +10,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors } from "../../../constants/colors";
 import CalendarDayView, { Task } from "../../components/CalendarDayView";
 import CalendarMonthView from "../../components/CalendarMonthView";
 import CalendarWeekView from "../../components/CalendarWeekView";
-import { expandTaskByRepeat } from "../../helpers/repeatExpand";
+import { Colors } from "../../constants/colors";
 import { getTasksOfUser } from "../../services/taskQueryService";
+import { expandTaskByRepeat } from "../../utils/repeatExpand";
 
 /* ===== helpers ===== */
 

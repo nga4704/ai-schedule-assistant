@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../constants/colors";
 import { Task } from "./CalendarDayView";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const weekDays = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
 const hours = Array.from({ length: 24 }, (_, i) => i);
 
-const ROW_HEIGHT = 64;
+const ROW_HEIGHT = 48;
 
 function formatDateLocal(date: Date) {
   const y = date.getFullYear();
@@ -27,7 +27,7 @@ export default function CalendarWeekView({ tasks, weekDates }: Props) {
     <View style={{ flex: 1 }}>
       {/* HEADER */}
       <View style={styles.headerRow}>
-        <View style={{ width: 50 }} />
+        <View style={{ width: 30 }} />
 
         {weekDates.map((date, idx) => {
           const isToday = date.toDateString() === today;
@@ -88,9 +88,10 @@ export default function CalendarWeekView({ tasks, weekDates }: Props) {
                             { backgroundColor: t.color },
                           ]}
                         >
-                          <Text numberOfLines={1} style={styles.eventText}>
+                          <Text numberOfLines={2} ellipsizeMode="tail" style={styles.eventText}>
                             {t.title}
                           </Text>
+
                         </View>
                       ))}
                     </View>
@@ -128,22 +129,34 @@ const styles = StyleSheet.create({
 
   body: { flexDirection: "row" },
 
-  timeColumn: { width: 50 },
-  timeCell: {
-    justifyContent: "flex-start",
-    alignItems: "flex-end",
-    paddingRight: 6,
-  },
+
   timeText: { fontSize: 11, color: Colors.textSecondary },
 
   dayColumn: { flex: 1, borderLeftWidth: 1, borderColor: Colors.border },
-  hourCell: { borderTopWidth: 1, borderColor: Colors.border, padding: 4 },
+
+  eventText: { fontSize: 11, fontWeight: "700", color: "#000", lineHeight: 14, },
+  timeColumn: {
+    width: 30,
+  },
+
+  timeCell: {
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingRight: 2,
+  },
+
+  hourCell: {
+    borderTopWidth: 1,
+    borderColor: Colors.border,
+    paddingVertical: 2,
+    paddingHorizontal: 2,
+  },
 
   event: {
     borderRadius: 8,
     paddingHorizontal: 6,
-    paddingVertical: 4,
-    marginBottom: 4,
+    paddingVertical: 2,
+    marginBottom: 2,
+    alignSelf: "stretch",
   },
-  eventText: { fontSize: 11, fontWeight: "700", color: "#000" },
 });

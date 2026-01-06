@@ -1,3 +1,4 @@
+// app/tasks/create.tsx
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -12,7 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../constants/colors";
 
 /* firebase */
 import { getAuth } from "firebase/auth";
@@ -43,7 +44,7 @@ export default function CreateTaskScreen() {
 
   /** ===== COLOR ===== */
   const [taskColor, setTaskColor] = useState<string | null>(null);
-  
+
 
   /** ===== TIME ===== */
   const [startDate, setStartDate] = useState(now);
@@ -87,24 +88,28 @@ export default function CreateTaskScreen() {
       startTime: Timestamp.fromDate(startTime),
       endTime: Timestamp.fromDate(endTime),
 
-      // không còn dueDateTime & reminderDateTime
       repeat: {
         preset: repeatPreset,
         days: repeatDays,
-        endDate: repeatEndDate ? Timestamp.fromDate(repeatEndDate) : null,
+        endDate: repeatEndDate
+          ? Timestamp.fromDate(repeatEndDate)
+          : null,
       },
 
       reminderOffset,
+
+      completed: false, // ✅ NEW
     };
 
     try {
-      await addTask(user.uid, task as any);
+      await addTask(user.uid, task);
       Alert.alert("Thành công", "Đã tạo công việc");
       router.back();
-    } catch (error) {
+    } catch {
       Alert.alert("Lỗi", "Không thể lưu công việc. Thử lại sau.");
     }
   }
+
 
   function getPickerValue() {
     switch (pickerMode) {
@@ -132,15 +137,34 @@ export default function CreateTaskScreen() {
     }
 
     switch (pickerMode) {
+
+      case "startTime": {
+        const newStart = selected;
+        setStartTime(newStart);
+
+        // 🔥 đảm bảo endTime luôn sau startTime ít nhất 30 phút
+        if (endTime <= newStart) {
+          setEndTime(new Date(newStart.getTime() + 30 * 60 * 1000));
+        }
+        break;
+      }
+
+      case "endTime": {
+        const newEnd = selected;
+
+        // 🔥 nếu endTime < startTime → tự chỉnh lại
+        if (newEnd <= startTime) {
+          setEndTime(new Date(startTime.getTime() + 30 * 60 * 1000));
+        } else {
+          setEndTime(newEnd);
+        }
+        break;
+      }
+
       case "startDate":
         setStartDate(selected);
         break;
-      case "startTime":
-        setStartTime(selected);
-        break;
-      case "endTime":
-        setEndTime(selected);
-        break;
+
       case "repeatEnd":
         setRepeatEndDate(selected);
         break;
@@ -148,6 +172,7 @@ export default function CreateTaskScreen() {
 
     setPickerMode(null);
   }
+
 
   /** ================= UI ================= */
   return (

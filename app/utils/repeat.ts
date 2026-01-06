@@ -1,4 +1,4 @@
-// helpers/repeat.ts
+// utils/repeat.ts
 export type RepeatPreset =
   | "none"
   | "daily"

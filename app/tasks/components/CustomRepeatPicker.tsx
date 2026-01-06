@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { Colors } from "../../../constants/colors";
+import { Colors } from "../../constants/colors";
 
 type RepeatUnit = "day" | "week" | "month" | "year";
 type EndType = "never" | "onDate" | "afterCount";

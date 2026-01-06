@@ -2,18 +2,13 @@
 import {
   addDoc,
   collection,
-  deleteDoc,
-  doc,
-  getDoc,
   getDocs,
   query,
   serverTimestamp,
   Timestamp,
-  updateDoc,
-  where
+  where,
 } from "firebase/firestore";
 
-import { getAuth } from "firebase/auth";
 import { db } from "../firebase/firebaseConfig";
 import { Task } from "../types/task";
 import { mapFirestoreTaskToCalendar } from "./taskMapper";
@@ -45,13 +40,8 @@ export async function addTask(
   userId: string,
   task: Omit<TaskData, "userId" | "createdAt">
 ) {
-  // normalize: đưa startDate về 00:00:00 của ngày đó
-  const normalized = new Date(task.startDate.toDate());
-  normalized.setHours(0, 0, 0, 0);
-
   const docRef = await addDoc(collection(db, "tasks"), {
     ...task,
-    startDate: Timestamp.fromDate(normalized),   // <-- quan trọng
     userId,
     createdAt: serverTimestamp(),
   });
@@ -59,15 +49,20 @@ export async function addTask(
   return docRef.id;
 }
 
-
 export async function getTodayTasks(userId: string): Promise<Task[]> {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  // normalize về đầu ngày
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  // đầu ngày hôm sau
+  const startOfTomorrow = new Date(startOfToday);
+  startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
 
   const q = query(
     collection(db, "tasks"),
     where("userId", "==", userId),
-    where("startDate", "==", Timestamp.fromDate(today))
+    where("startDate", ">=", Timestamp.fromDate(startOfToday)),
+    where("startDate", "<", Timestamp.fromDate(startOfTomorrow))
   );
 
   const snap = await getDocs(q);
@@ -78,38 +73,4 @@ export async function getTodayTasks(userId: string): Promise<Task[]> {
       ...doc.data(),
     })
   );
-}
-
-export async function updateTaskCompleted(
-  taskId: string,
-  completed: boolean
-) {
-  await updateDoc(doc(db, "tasks", taskId), {
-    completed,
-  });
-}
-
-export async function getTaskById(id: string): Promise<Task | null> {
-  const snap = await getDoc(doc(db, "tasks", id));
-
-  if (!snap.exists()) return null;
-
-  const data = snap.data();
-
-  // nếu task không thuộc user → không trả về
-  const auth = getAuth();
-  if (data.userId !== auth.currentUser?.uid) return null;
-
-  return {
-    id: snap.id,
-    ...(data as Omit<Task, "id">),
-  };
-}
-
-export async function updateTask(id: string, data: any) {
-  await updateDoc(doc(db, "tasks", id), data);
-}
-
-export async function deleteTask(id: string) {
-  await deleteDoc(doc(db, "tasks", id));
 }

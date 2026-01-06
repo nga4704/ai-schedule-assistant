@@ -1,10 +1,11 @@
+// services/taskService_edit.ts
 import {
-    deleteDoc,
-    doc,
-    getDoc,
-    updateDoc
+  deleteDoc,
+  doc,
+  getDoc,
+  updateDoc
 } from "firebase/firestore";
-import { db } from "../../firebase/firebaseConfig";
+import { db } from "../firebase/firebaseConfig";
 
 export async function getTaskById(id: string) {
   const ref = doc(db, "tasks", id);

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../constants/colors";
 import { Task } from "./CalendarDayView";
 
 interface Props {
@@ -73,7 +73,14 @@ export default function CalendarMonthView({ tasks, monthDays }: Props) {
                     { backgroundColor: t.color, marginVertical: 2 },
                   ]}
                 >
-                  <Text style={styles.eventText}>{t.title}</Text>
+                  <Text
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                    style={styles.eventText}
+                  >
+                    {t.title}
+                  </Text>
+
                 </View>
               ))}
             </View>
@@ -122,5 +129,5 @@ const styles = StyleSheet.create({
   monthDayLabel: { fontWeight: "700", textAlign: "center" },
   todayText: { color: "#000" },
   event: { padding: 6, borderRadius: 8 },
-  eventText: { fontSize: 12, fontWeight: "700", color: "#000" },
+  eventText: { fontSize: 12, fontWeight: "700", color: "#000",lineHeight: 16, },
 });

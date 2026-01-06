@@ -1,16 +1,16 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
-import { Colors } from "../../constants/colors";
-import { registerUser } from "../../firebase/auth";
+import { Colors } from "../constants/colors";
+import { registerUser } from "../firebase/auth";
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState("");

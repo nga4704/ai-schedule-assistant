@@ -1,7 +1,7 @@
 // app/(tabs)/_layout.tsx
 import { Feather } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../constants/colors";
 
 export default function TabLayout() {
   return (

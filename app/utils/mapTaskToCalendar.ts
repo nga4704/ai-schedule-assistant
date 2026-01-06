@@ -1,24 +1,22 @@
-import { Colors } from "../../constants/colors";
-import { Task } from "../components/CalendarDayView";
+// utils/mapTaskToCalendar.ts
+import { Colors } from "../constants/colors";
+import { Task } from "../types/task";
+import { formatDateLocal, toDateSafe } from "./date";
 
-function formatDateLocal(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
-
-function mapFirestoreTaskToCalendar(task: any): Task {
-  const start: Date =
-    task.startTime?.toDate?.() ??
-    new Date(task.startTime) ??
-    new Date();
+export function mapFirestoreTaskToCalendar(data: any): Task {
+  const start = toDateSafe(data.startTime);
 
   return {
-    id: task.id,
-    title: task.title,
+    id: data.id,
+    sourceTaskId: data.sourceTaskId ?? null,
+
+    title: data.title,
+    description: data.description,
+
     date: formatDateLocal(start),
     hour: start.getHours(),
-    color: task.taskColor ?? Colors.primary,
+
+    color: data.taskColor ?? Colors.primary,
+    completed: !!data.completed,
   };
 }

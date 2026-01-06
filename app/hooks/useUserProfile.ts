@@ -1,3 +1,4 @@
+// hooks/useUserProfile.ts
 import { useEffect, useState } from "react";
 import { getUserProfile } from "../firebase/firestore";
 import { useAuth } from "./useAuth";

@@ -1,4 +1,4 @@
-// constants/colors.ts
+// app/constants/colors.ts
 
 export const Colors = {
   /* ===== Base ===== */

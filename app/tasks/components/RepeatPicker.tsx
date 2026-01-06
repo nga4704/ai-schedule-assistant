@@ -2,7 +2,7 @@
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Colors } from "../../../constants/colors";
+import { Colors } from "../../constants/colors";
 import CustomRepeatPicker from "./CustomRepeatPicker";
 
 export type RepeatPreset =

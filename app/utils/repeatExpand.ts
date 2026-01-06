@@ -1,6 +1,7 @@
+// utils/repeatExpand.ts
 import { Timestamp } from "firebase/firestore";
-import { RepeatPreset, WeekDay } from "../tasks/components/RepeatPicker";
 import { toDateSafe } from "./date";
+import { RepeatPreset, WeekDay } from "./repeat";
 
 const WEEK_MAP: WeekDay[] = [
   "sun",
@@ -12,16 +13,16 @@ const WEEK_MAP: WeekDay[] = [
   "sat",
 ];
 
-export function expandTaskByRepeat(
-  task: any,
+export function expandTaskByRepeat<T extends { startTime: any; repeat?: any }>(
+  task: T,
   rangeStart: Date,
   rangeEnd: Date
-) {
+): T[] {
   if (!task.repeat || task.repeat.preset === "none") {
     return [task];
   }
 
-  const results: any[] = [];
+  const results: T[] = [];
   const start = toDateSafe(task.startTime);
 
   const repeatEnd = task.repeat.endDate
@@ -33,20 +34,23 @@ export function expandTaskByRepeat(
     d <= rangeEnd && d <= repeatEnd;
     d.setDate(d.getDate() + 1)
   ) {
-    const wd = WEEK_MAP[d.getDay()];
+    const weekDay = WEEK_MAP[d.getDay()];
     let match = false;
 
     switch (task.repeat.preset as RepeatPreset) {
       case "daily":
         match = true;
         break;
+
       case "weekday":
         match = d.getDay() >= 1 && d.getDay() <= 5;
         break;
+
       case "weekly":
       case "custom":
-        match = task.repeat.days?.includes(wd);
+        match = task.repeat.days?.includes(weekDay);
         break;
+
       case "yearly":
         match =
           d.getDate() === start.getDate() &&
@@ -54,15 +58,15 @@ export function expandTaskByRepeat(
         break;
     }
 
-    if (match) {
-      const newStart = new Date(d);
-      newStart.setHours(start.getHours(), start.getMinutes());
+    if (!match) continue;
 
-      results.push({
-        ...task,
-        startTime: Timestamp.fromDate(newStart),
-      });
-    }
+    const newStart = new Date(d);
+    newStart.setHours(start.getHours(), start.getMinutes(), 0, 0);
+
+    results.push({
+      ...task,
+      startTime: Timestamp.fromDate(newStart),
+    });
   }
 
   return results;

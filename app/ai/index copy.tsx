@@ -1,3 +1,4 @@
+// app/ai/index.tsx
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
@@ -8,100 +9,78 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors } from "../../constants/colors";
+import { Colors } from "../constants/colors";
 
 const mockSchedule = [
   {
     id: "1",
     start: "08:30",
     end: "09:30",
-    title: "Finish assignment",
+    title: "Hoàn thành bài tập",
     priority: "high",
   },
   {
     id: "2",
     start: "10:00",
     end: "11:00",
-    title: "Review notes",
+    title: "Ôn tập ghi chú",
     priority: "medium",
   },
   {
     id: "3",
     start: "14:00",
     end: "15:00",
-    title: "Team meeting",
+    title: "Họp nhóm",
     priority: "medium",
   },
 ];
 
 export default function ScheduleScreen() {
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Feather
-            name="arrow-left"
-            size={22}
-            color={Colors.textPrimary}
-          />
+          <Feather name="arrow-left" size={22} color={Colors.textPrimary} />
         </TouchableOpacity>
 
-        <Text style={styles.title}>AI Schedule</Text>
+        <Text style={styles.title}>Lịch AI đề xuất</Text>
 
         <TouchableOpacity>
-          <Feather
-            name="refresh-cw"
-            size={20}
-            color={Colors.primary}
-          />
+          <Feather name="refresh-cw" size={20} color={Colors.primary} />
         </TouchableOpacity>
       </View>
 
       {/* Overview */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Today overview</Text>
+        <Text style={styles.cardTitle}>Tổng quan hôm nay</Text>
 
         <View style={styles.row}>
           <View style={styles.statBox}>
             <Text style={styles.statNumber}>3</Text>
-            <Text style={styles.statLabel}>Tasks</Text>
+            <Text style={styles.statLabel}>Công việc</Text>
           </View>
 
           <View style={styles.statBox}>
             <Text style={styles.statNumber}>3h</Text>
-            <Text style={styles.statLabel}>
-              Scheduled
-            </Text>
+            <Text style={styles.statLabel}>Thời gian bận</Text>
           </View>
         </View>
       </View>
 
       {/* Timeline */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>AI timeline</Text>
+        <Text style={styles.cardTitle}>Timeline AI</Text>
 
         {mockSchedule.map((item) => (
-          <View
-            key={item.id}
-            style={styles.timelineItem}
-          >
+          <View key={item.id} style={styles.timelineItem}>
             <View style={styles.timeColumn}>
-              <Text style={styles.timeText}>
-                {item.start}
-              </Text>
-              <Text style={styles.timeText}>
-                {item.end}
-              </Text>
+              <Text style={styles.timeText}>{item.start}</Text>
+              <Text style={styles.timeText}>{item.end}</Text>
             </View>
 
             <View style={styles.timelineContent}>
-              <Text style={styles.taskTitle}>
-                {item.title}
-              </Text>
+              <Text style={styles.taskTitle}>{item.title}</Text>
 
               <View
                 style={[
@@ -111,10 +90,8 @@ export default function ScheduleScreen() {
                     : styles.medium,
                 ]}
               >
-                <Text
-                  style={styles.priorityText}
-                >
-                  {item.priority.toUpperCase()}
+                <Text style={styles.priorityText}>
+                  {item.priority === "high" ? "CAO" : "TRUNG BÌNH"}
                 </Text>
               </View>
             </View>
@@ -123,52 +100,35 @@ export default function ScheduleScreen() {
       </View>
 
       {/* AI Explanation */}
-      <View
-        style={[styles.card, styles.aiCard]}
-      >
-        <Text style={styles.cardTitle}>
-          🤖 AI explanation
-        </Text>
+      <View style={[styles.card, styles.aiCard]}>
+        <Text style={styles.cardTitle}>🤖 Giải thích từ AI</Text>
 
         <Text style={styles.aiText}>
-          • High priority tasks are scheduled
-          earlier when your focus is strongest.
+          • Công việc ưu tiên cao được sắp xếp vào buổi sáng khi bạn tập trung
+          tốt nhất.
         </Text>
         <Text style={styles.aiText}>
-          • Meetings are grouped in the
-          afternoon.
+          • Các buổi họp được gom vào buổi chiều để tránh gián đoạn.
         </Text>
         <Text style={styles.aiText}>
-          • Breaks are left between tasks to
-          avoid overload.
+          • Có khoảng nghỉ giữa các công việc để tránh quá tải.
         </Text>
       </View>
 
       {/* Actions */}
       <View style={styles.actions}>
-        <TouchableOpacity
-          style={styles.secondaryButton}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.secondaryText}>
-            Regenerate
-          </Text>
+        <TouchableOpacity style={styles.secondaryButton}>
+          <Text style={styles.secondaryText}>Tạo lại</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.primaryButton}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.primaryText}>
-            Apply to calendar
-          </Text>
+        <TouchableOpacity style={styles.primaryButton}>
+          <Text style={styles.primaryText}>Áp dụng vào lịch</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
 
-/* ---------- Styles ---------- */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -176,6 +136,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
+  /* Header */
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -184,16 +145,21 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "800",
     color: Colors.textPrimary,
   },
 
+  /* Card */
   card: {
     backgroundColor: Colors.card,
-    borderRadius: 20,
+    borderRadius: 18,
     padding: 20,
     marginBottom: 20,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
   },
 
   cardTitle: {
@@ -203,6 +169,7 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
   },
 
+  /* Overview */
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -210,9 +177,9 @@ const styles = StyleSheet.create({
 
   statBox: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.primary,
     padding: 16,
-    borderRadius: 16,
+    borderRadius: 14,
     marginRight: 12,
     alignItems: "center",
   },
@@ -229,6 +196,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
   },
 
+  /* Timeline */
   timelineItem: {
     flexDirection: "row",
     marginBottom: 16,
@@ -241,13 +209,13 @@ const styles = StyleSheet.create({
 
   timeText: {
     fontSize: 13,
-    color: Colors.textMuted,
+    color: Colors.textSecondary,
   },
 
   timelineContent: {
     flex: 1,
-    backgroundColor: Colors.gray100,
-    borderRadius: 16,
+    backgroundColor: Colors.background,
+    borderRadius: 14,
     padding: 14,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -263,13 +231,13 @@ const styles = StyleSheet.create({
   priorityBadge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: 10,
   },
 
   priorityText: {
     fontSize: 11,
     fontWeight: "700",
-    color: Colors.background,
+    color: "#FFFFFF",
   },
 
   high: {
@@ -280,19 +248,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.warning,
   },
 
+  /* AI */
   aiCard: {
-    backgroundColor: Colors.gray100,
+    backgroundColor: Colors.aiBackground,
   },
 
   aiText: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: Colors.textPrimary,
     marginBottom: 8,
   },
 
+  /* Actions */
   actions: {
     flexDirection: "row",
-    justifyContent: "space-between",
     marginBottom: 40,
   },
 
@@ -308,12 +277,12 @@ const styles = StyleSheet.create({
   primaryText: {
     color: Colors.textPrimary,
     fontSize: 15,
-    fontWeight: "800",
+    fontWeight: "700",
   },
 
   secondaryButton: {
     flex: 1,
-    backgroundColor: Colors.gray300,
+    backgroundColor: "#E5E7EB",
     paddingVertical: 16,
     borderRadius: 16,
     alignItems: "center",

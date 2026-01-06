@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Colors } from "../../../constants/colors";
+import { Colors } from "../../constants/colors";
 
 interface Props {
   value: string | null;
