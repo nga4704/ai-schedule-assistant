@@ -18,7 +18,9 @@ Lưu trên Firebase để truy cập trên nhiều thiết bị.
 
 📱 Demo & Ảnh màn hình
 
-(Bạn có thể chèn GIF/ảnh demo ứng dụng ở đây)
+![Uploading image.png…]()
+
+
 
 🧩 Công nghệ & Kiến trúc
 Thành phần	Công nghệ
