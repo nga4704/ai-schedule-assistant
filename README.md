@@ -1,50 +1,66 @@
-# Welcome to your Expo app 👋
+🗓️ AI Schedule Assistant
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Ứng dụng di động giúp tạo và quản lý lịch biểu cá nhân/nhóm thông minh bằng AI, hỗ trợ đề xuất thời khóa biểu, nhắc lịch, và tối ưu thời gian theo thói quen người dùng.
 
-## Get started
+🚀 Tính năng chính
 
-1. Install dependencies
+🧠 Tạo lịch tự động với AI
+Nhập mục tiêu, sở thích và hạn chót → hệ thống đề xuất lịch trình tối ưu.
 
-   ```bash
-   npm install
-   ```
+📅 Xem, chỉnh sửa và xóa các sự kiện
+Giao diện lịch hàng ngày, tuần, tháng.
 
-2. Start the app
+🔔 Nhắc nhở thông minh
+Nhắc các công việc quan trọng dựa trên hành vi và thời gian ưu tiên của bạn.
 
-   ```bash
-   npx expo start
-   ```
+☁️ Đồng bộ dữ liệu
+Lưu trên Firebase để truy cập trên nhiều thiết bị.
 
-In the output, you'll find options to open the app in a
+📱 Demo & Ảnh màn hình
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+(Bạn có thể chèn GIF/ảnh demo ứng dụng ở đây)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+🧩 Công nghệ & Kiến trúc
+Thành phần	Công nghệ
+Frontend	React Native + Expo
+Backend	Firebase (Authentication, Firestore)
+AI Assistant	OpenAI (ChatGPT/Function Calling)
+Lint & Style	ESLint
+Ngôn ngữ	TypeScript
+🛠️ Cài đặt & Chạy
+1. Clone repository
+git clone https://github.com/nga4704/ai-schedule-assistant.git
+cd ai-schedule-assistant
 
-## Get a fresh project
+2. Cài dependencies
+npm install
 
-When you're ready, run:
+3. Cấu hình biến môi trường
 
-```bash
-npm run reset-project
-```
+Tạo file .env theo mẫu:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+FIREBASE_API_KEY=...
+FIREBASE_AUTH_DOMAIN=...
+FIREBASE_PROJECT_ID=...
+OPENAI_API_KEY=...
 
-## Learn more
+4. Chạy ứng dụng
+npx expo start
 
-To learn more about developing your project with Expo, look at the following resources:
+🧠 Hướng dẫn sử dụng cơ bản
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Đăng nhập/Đăng ký
 
-## Join the community
+Email hoặc tài khoản Google.
 
-Join our community of developers creating universal apps.
+Nhập thông tin lịch cần lên kế hoạch
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Mục tiêu, deadline, mức ưu tiên.
+
+Xem lịch được AI đề xuất
+
+Chạm vào ngày để xem chi tiết.
+
+Chỉnh sửa/Hoàn tất công việc
+
+Giao diện đơn giản, kéo thả để thay đổi thời gian.
