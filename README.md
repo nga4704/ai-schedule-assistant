@@ -1,68 +1,109 @@
-🗓️ AI Schedule Assistant
+Dưới đây là **bản README đã chỉnh sửa, rõ ràng và chuyên nghiệp hơn** cho dự án **ai-schedule-assistant** — bạn có thể **copy & dán vào file `README.md`** trong repo của bạn.
 
-Ứng dụng di động giúp tạo và quản lý lịch biểu cá nhân/nhóm thông minh bằng AI, hỗ trợ đề xuất thời khóa biểu, nhắc lịch, và tối ưu thời gian theo thói quen người dùng.
+---
 
-🚀 Tính năng chính
+# 📅 AI Schedule Assistant
 
-🧠 Tạo lịch tự động với AI
-Nhập mục tiêu, sở thích và hạn chót → hệ thống đề xuất lịch trình tối ưu.
+Trợ lý lập lịch thông minh chạy trên nền **React Native (Expo)**, sử dụng AI để tạo & quản lý lịch trình một cách tự động.
 
-📅 Xem, chỉnh sửa và xóa các sự kiện
-Giao diện lịch hàng ngày, tuần, tháng.
+> 📌 *Ai-Schedule-Assistant giúp bạn nhập lịch bằng ngôn ngữ tự nhiên, gợi ý thời gian phù hợp, và đồng bộ hóa lịch cá nhân – giúp bạn tổ chức thời gian hiệu quả hơn.*
 
-🔔 Nhắc nhở thông minh
-Nhắc các công việc quan trọng dựa trên hành vi và thời gian ưu tiên của bạn.
+---
 
-☁️ Đồng bộ dữ liệu
-Lưu trên Firebase để truy cập trên nhiều thiết bị.
+## 🚀 Tính năng chính
 
-📱 Demo & Ảnh màn hình
+* 🧠 **Tạo lịch từ ngôn ngữ tự nhiên**
+  Nhập câu như “Hẹn họp với team vào 3 chiều thứ Hai” → app tự chuyển thành sự kiện.
 
-![Uploading image.png…]()
+* 📆 **Xem và sửa lịch dễ dàng**
+  Giao diện danh sách & lịch trực quan.
 
+* 🔔 **Thông báo nhắc sự kiện**
+  Nhắc trước sự kiện quan trọng.
 
+* 🤖 **Tích hợp AI**
+  AI giúp hiểu yêu cầu tự nhiên, gợi ý thời gian tốt nhất cho bạn.
 
-🧩 Công nghệ & Kiến trúc
-Thành phần	Công nghệ
-Frontend	React Native + Expo
-Backend	Firebase (Authentication, Firestore)
-AI Assistant	OpenAI (ChatGPT/Function Calling)
-Lint & Style	ESLint
-Ngôn ngữ	TypeScript
-🛠️ Cài đặt & Chạy
-1. Clone repository
+---
+
+## 🛠️ Công nghệ
+
+* **React Native + Expo**
+* **TypeScript**
+* **AI Backend** (ví dụ: OpenAI API / GPT-based service)
+* Quản lý trạng thái với **React Query / Redux** (tuỳ cài đặt)
+* Tích hợp lịch & thông báo thiết bị
+
+---
+
+## 📥 Cài đặt & chạy
+
+### 1️⃣ Clone repository
+
+```bash
 git clone https://github.com/nga4704/ai-schedule-assistant.git
 cd ai-schedule-assistant
+```
 
-2. Cài dependencies
+### 2️⃣ Cài dependencies
+
+```bash
 npm install
+```
 
-3. Cấu hình biến môi trường
+hoặc với Yarn:
 
-Tạo file .env theo mẫu:
+```bash
+yarn install
+```
 
-FIREBASE_API_KEY=...
-FIREBASE_AUTH_DOMAIN=...
-FIREBASE_PROJECT_ID=...
-OPENAI_API_KEY=...
+### 3️⃣ Thiết lập biến môi trường
 
-4. Chạy ứng dụng
+Tạo file `.env` ở root với các biến cần thiết (ví dụ):
+
+```env
+OPENAI_API_KEY=your_openai_api_key
+```
+
+### 4️⃣ Chạy app
+
+```bash
 npx expo start
+```
 
-🧠 Hướng dẫn sử dụng cơ bản
+Mở trên **thiết bị thật** hoặc **simulator/emulator**.
 
-Đăng nhập/Đăng ký
+---
 
-Email hoặc tài khoản Google.
 
-Nhập thông tin lịch cần lên kế hoạch
+## 📁 Cấu trúc thư mục
 
-Mục tiêu, deadline, mức ưu tiên.
+```
+├── app/                  # Màn hình & navigation
+├── assets/               # Hình ảnh, font
+├── components/           # Component tái sử dụng
+├── services/             # API clients & logic
+├── utils/                # Hàm tiện ích
+├── hooks/                # Custom hooks
+├── constants/            # Hằng số dùng chung
+├── firebase/             # (Nếu có) config Firebase
+└── ...
+```
 
-Xem lịch được AI đề xuất
+---
 
-Chạm vào ngày để xem chi tiết.
+## 💡 Sử dụng AI
 
-Chỉnh sửa/Hoàn tất công việc
+Ứng dụng sử dụng AI để:
 
-Giao diện đơn giản, kéo thả để thay đổi thời gian.
+* Phân tích câu nhập người dùng → chuyển thành sự kiện
+* Gợi ý khung thời gian phù hợp
+* Giải thích hoặc chỉnh sửa lịch dễ hiểu hơn
+
+---
+
+## 🧑‍💻 Tác giả
+
+📌 **nga4704** – Nhà phát triển chính
+
+---
