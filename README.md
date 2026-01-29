@@ -1,7 +1,3 @@
-Dưới đây là **bản README đã chỉnh sửa, rõ ràng và chuyên nghiệp hơn** cho dự án **ai-schedule-assistant** — bạn có thể **copy & dán vào file `README.md`** trong repo của bạn.
-
----
-
 # 📅 AI Schedule Assistant
 
 Trợ lý lập lịch thông minh chạy trên nền **React Native (Expo)**, sử dụng AI để tạo & quản lý lịch trình một cách tự động.
